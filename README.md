@@ -5,12 +5,12 @@
 
 
 # Run project
-##First, install dependendencies
+## First, install dependendencies
 	npm install
 
 
 
-##Second, run the development server:
+## Second, run the development server:
 	npm run dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
@@ -77,8 +77,8 @@ api/products/index.js
 	}
 
 
-##Database
-###Create a database in mysql
+## Database
+### Create a database in mysql
 
 	CREATE DATABASE productsnextjs;
 	
@@ -94,7 +94,7 @@ api/products/index.js
 	
 	describe product;
 
-###Connect to mysql
+### Connect to mysql
 in config/db.js
 
 	import { createPool } from 'mysql2/promise'
@@ -109,7 +109,7 @@ in config/db.js
 
 	export { pool };
 
-####Test connection
+#### Test connection
 in pages/api/hello.js
 
 	import { pool } from '../../config/db';
