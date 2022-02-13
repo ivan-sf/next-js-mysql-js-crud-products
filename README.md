@@ -77,7 +77,7 @@ api/products/index.js
 	}
 
 
-## Database
+## Four step, database
 ### Create a database in mysql
 
 	CREATE DATABASE productsnextjs;
