@@ -119,3 +119,35 @@ in pages/api/hello.js
 	  return res.status(200).json(rows[0]['NOW()'])
 	}
 
+
+## Five step, create product
+### API
+in pages/api/products/index.js
+in switch
+
+	case "POST":
+    	return await saveProduct(req,res)
+
+in function
+
+	const saveProduct = async(req,res)=>{
+		const { name, price, description } = req.body;
+		const [result] = await pool.query("INSERT INTO product SET ?",{
+			name,price,description
+		})
+		return res.status(200).json({name,price,description, id: result.insertId})
+	}
+
+## Six step, read/list products
+### API
+in pages/api/products/index.js
+in switch
+
+	case "GET":
+     	return await getProducts(req,res)
+
+in function
+
+	const [result] = await pool.query("SELECT * FROM product");
+    return res.status(200).json(result)
+
