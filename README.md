@@ -1,34 +1,121 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+[TOC]
+# About project
+***This project is a crud of products whit next.js, tailwindcss and mysql***
 
-## Getting Started
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+# Run project
+##First, install dependendencies
+	npm install
 
+
+
+##Second, run the development server:
+	npm run dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-## Learn More
+# Tutorial
 
-To learn more about Next.js, take a look at the following resources:
+## First step, create a next.js project 
+### Create a next.js project
+	npx create-next-app crud-mysql
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Second step, install dependencies 
+### Dependencies for mysql
+#### Install dependencies mysql
+	npm i mysql2 axios
+### Dependencies and config tailwind.css
+#### Install dependencies tailwind css
+	npm install -D tailwindcss postcss autoprefixer
+    npx tailwindcss init -p
+#### Config tailwind css
+*tailwind.config.js
+*
 
-## Deploy on Vercel
+    module.exports = {
+    content: [
+        "./pages/**/*.{js,ts,jsx,tsx}",
+        "./components/**/*.{js,ts,jsx,tsx}",
+    ],
+    theme: {
+        extend: {},
+    },
+    plugins: [],
+    }
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+*globals.css
+*
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+	@tailwind base;
+    @tailwind components;
+    @tailwind utilities;
+
+
+## Third step, create directories
+### Create directories in pages and api
+Create directories for products in pages/products and pages/api/products
+
+	pages/
+         api/products/index.js
+         api/products/[id].js
+         products/index.js
+### Return status in api 
+api/products/[id].js
+
+	export default(req,res)=>{
+		return res.status(200).json('getting a product ' + req.query.id)
+	}
+
+api/products/index.js
+
+	export default(req,res)=>{
+		return res.status(200).json('getting a products')
+	}
+
+
+##Database
+###Create a database in mysql
+
+	CREATE DATABASE productsnextjs;
+	
+	use productsnextjs;
+	
+	CREATE TABLE product (
+		id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+		name VARCHAR(255) NOT NULL,
+		description VARCHAR(500) NOT NULL,
+		price DECIMAL,
+		createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	);
+	
+	describe product;
+
+###Connect to mysql
+in config/db.js
+
+	import { createPool } from 'mysql2/promise'
+
+	const pool = createPool({
+		host:'localhost',
+		user:'root',
+		password:'',
+		port:3306,
+		database: 'productsnextjs'
+	});
+
+	export { pool };
+
+####Test connection
+in pages/api/hello.js
+
+	import { pool } from '../../config/db';
+
+	export default async function handler(req,res){
+	  const [rows] = await pool.query('SELECT NOW()');
+	  return res.status(200).json(rows[0]['NOW()'])
+	}
+
